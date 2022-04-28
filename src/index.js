@@ -51,13 +51,24 @@ const start = () => {
         rl.close()
     } else {
         rl.on('line', function (line) {
-            console.log(line)
-            const ans = findAnswer()
-            if (ans) {
-                rl.close()
-            } else {
-                console.log('write your choice')
+            // console.log(line)
+            if (typeof line === 'string' && line !== "") {
+                const nums = line.split(' ').filter(s => s !== '').map(s => parseInt(s)).filter(v => typeof v === 'number' && !isNaN(v))
+                if (nums.length === 2) {
+                    const [index, num] = nums
+                    if (arr[index - 1] !== undefined && arr[index - 1] >= num) {
+                        console.log(nums)
+                        const ans = findAnswer()
+                        if (ans) {
+                            rl.close()
+                        } else {
+                            console.log('write your choice')
+                        }
+                        return
+                    }
+                }
             }
+            console.log("format error")
         });
     }
 }
