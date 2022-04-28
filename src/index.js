@@ -36,10 +36,12 @@ const start = () => {
         const notOneRest = rest.filter(v => v !== 1)
         if (notOneRest.length === 1) {
             const pickIndex = arr.indexOf(notOneRest[0])
-            const pickNum = notOneRest[0] - 1
-            console.log("Game over : You win")
+            let pickNum = notOneRest[0] - 1
+            if (rest.length % 2 === 0) {
+                pickNum++
+            }
             console.log(`Pick  [PC]: 第${pickIndex + 1}堆, 取${pickNum}个`)
-            arr[pickIndex] = 1
+            arr[pickIndex] -= pickNum
         } else {
             const s = arr.reduce((pV, cV) => pV ^ cV, 0)
             for (let i = 0; i < arr.length; i++) {
@@ -54,10 +56,13 @@ const start = () => {
         console.log(`Rest nums : [${arr.join()}]`)
         return false
     }
+    let round = 1
+    console.log(`======= Round ${round} =======`)
     const ans = findAnswer()
     if (ans) {
         rl.close()
     } else {
+        console.log('write your choice:')
         rl.on('line', function (line) {
             // console.log(line)
             if (typeof line === 'string' && line !== "") {
@@ -68,11 +73,13 @@ const start = () => {
                         // console.log(nums)
                         arr[index - 1] -= num
                         console.log(`Rest nums : [${arr.join()}]`)
+                        round++
+                        console.log(`======= Round ${round} =======`)
                         const ans = findAnswer()
                         if (ans) {
                             rl.close()
                         } else {
-                            console.log('write your choice')
+                            console.log('write your choice:')
                         }
                         return
                     }
