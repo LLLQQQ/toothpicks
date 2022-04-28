@@ -29,7 +29,7 @@ const start = () => {
         }
         // 如果全是0，说明上一轮后手已拿完
         if (rest.length === 0) {
-            console.log("Game over : I win")
+            console.log("Game over : PC win")
             return true
         }
         // 如果有且仅有一个堆内有>1个牙签,那么拿走n-1个
@@ -38,12 +38,20 @@ const start = () => {
             const pickIndex = arr.indexOf(notOneRest[0])
             const pickNum = notOneRest[0] - 1
             console.log("Game over : You win")
-            console.log(`Pick   [I]: 第${pickIndex + 1}堆, 取${pickNum}个`)
+            console.log(`Pick  [PC]: 第${pickIndex + 1}堆, 取${pickNum}个`)
             arr[pickIndex] = 1
-            console.log(`Rest nums : [${arr.join()}]`)
         } else {
-
+            const s = arr.reduce((pV, cV) => pV ^ cV, 0)
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i] > (s ^ arr[i])) {
+                    const pickNum = arr[i] - (s ^ arr[i])
+                    console.log(`Pick  [PC]: 第${i + 1}堆, 取${pickNum}个`)
+                    arr[i] -= pickNum
+                    break
+                }
+            }
         }
+        console.log(`Rest nums : [${arr.join()}]`)
         return false
     }
     const ans = findAnswer()
@@ -57,7 +65,9 @@ const start = () => {
                 if (nums.length === 2) {
                     const [index, num] = nums
                     if (arr[index - 1] !== undefined && arr[index - 1] >= num) {
-                        console.log(nums)
+                        // console.log(nums)
+                        arr[index - 1] -= num
+                        console.log(`Rest nums : [${arr.join()}]`)
                         const ans = findAnswer()
                         if (ans) {
                             rl.close()
