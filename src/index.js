@@ -62,7 +62,7 @@ const start = () => {
     if (ans) {
         rl.close()
     } else {
-        console.log('write your choice:')
+        console.log('write your choice:【输入两个数字如“2 1”，代表第2堆取1根牙签】')
         rl.on('line', function (line) {
             // console.log(line)
             if (typeof line === 'string' && line !== "") {
@@ -79,7 +79,7 @@ const start = () => {
                         if (ans) {
                             rl.close()
                         } else {
-                            console.log('write your choice:')
+                            console.log('write your choice:【输入两个数字如“2 1”，代表第2堆取1根牙签】')
                         }
                         return
                     }
